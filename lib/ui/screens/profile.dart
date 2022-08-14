@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:test/controller/auth/login.dart';
 import 'package:test/helper/constants/colors.dart';
 import 'package:test/helper/constants/image_paths.dart';
 import 'package:test/ui/widgets/button.dart';
@@ -8,6 +10,7 @@ import '../widgets/edit_profile_card.dart';
 class ProfileScreen extends StatelessWidget {
   final ColorHepler _colorHepler = ColorHepler();
   final ImagePaths _imagePaths = ImagePaths();
+  final LoginController _controller = Get.put(LoginController());
 
   @override
   Widget build(BuildContext context) {
@@ -127,7 +130,9 @@ class ProfileScreen extends StatelessWidget {
                       child: CustomButton(
                         isBorder: false,
                         text: "Log Out",
-                        onPreesed: () {},
+                        onPreesed: () {
+                          _controller.logout();
+                        },
                       ),
                     )
                   ],

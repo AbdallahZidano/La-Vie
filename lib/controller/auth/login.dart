@@ -125,4 +125,25 @@ class LoginController extends GetxController {
     );
     Get.to(AuthScreen());
   }
+
+  void apiLogOut() async {
+    await PreferenceUtils.setBool(SharedKeys.isLogin.toString(), false);
+    await PreferenceUtils.setString(
+      SharedKeys.signinType.toString(),
+      SharedKeys.none.toString(),
+    );
+    Get.to(AuthScreen());
+  }
+
+  void logout() async {
+    String signinType =
+        PreferenceUtils.getString(SharedKeys.signinType.toString());
+    if (signinType == SharedKeys.signinWithGoogle.toString()) {
+      googleSignOut();
+    } else if (signinType == SharedKeys.signinWithFacebook.toString()) {
+      facebookSignOut();
+    } else {
+      apiLogOut();
+    }
+  }
 }
