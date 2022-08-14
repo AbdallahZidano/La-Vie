@@ -51,7 +51,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             children: [
               Container(
                 decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.6),
+                  color: Colors.black.withOpacity(0.65),
                 ),
               ),
               Padding(
