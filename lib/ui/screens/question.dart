@@ -87,6 +87,7 @@ class QuestionScreen extends StatelessWidget {
                     child: CustomButton(
                       text: "Back",
                       isBorder: true,
+                      onPreesed: () {},
                     ),
                   ),
                   const SizedBox(width: 15),
@@ -95,6 +96,7 @@ class QuestionScreen extends StatelessWidget {
                     child: CustomButton(
                       text: "Next",
                       isBorder: false,
+                      onPreesed: () {},
                     ),
                   ),
                 ],

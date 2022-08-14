@@ -103,7 +103,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       MaterialButton(
                         padding: EdgeInsets.zero,
                         onPressed: () {
-                          _controller.googleLogin(context);
+                          _controller.googleSignIn(context);
                         },
                         child: Image.asset(_imagePaths.google),
                         shape: RoundedRectangleBorder(
@@ -112,7 +112,9 @@ class _AuthScreenState extends State<AuthScreen> {
                       ),
                       MaterialButton(
                         padding: EdgeInsets.zero,
-                        onPressed: () {},
+                        onPressed: () {
+                          _controller.feacbookSignIn(context);
+                        },
                         child: Image.asset(_imagePaths.facebook),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(25),

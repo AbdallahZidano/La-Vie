@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:test/helper/constants/colors.dart';
 import 'package:test/helper/constants/image_paths.dart';
+import 'package:test/ui/widgets/button.dart';
 
 import '../widgets/edit_profile_card.dart';
 
@@ -121,6 +122,14 @@ class ProfileScreen extends StatelessWidget {
                     EditCard(text: "Change Name"),
                     const SizedBox(height: 20),
                     EditCard(text: "Change Email"),
+                    const SizedBox(height: 50),
+                    Center(
+                      child: CustomButton(
+                        isBorder: false,
+                        text: "Log Out",
+                        onPreesed: () {},
+                      ),
+                    )
                   ],
                 ),
               ),

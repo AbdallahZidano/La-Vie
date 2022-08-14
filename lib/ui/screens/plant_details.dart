@@ -69,7 +69,11 @@ class PlantDetailsScreen extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 10),
-                  CustomButton(text: "Go To Blog", isBorder: false),
+                  CustomButton(
+                    text: "Go To Blog",
+                    isBorder: false,
+                    onPreesed: () {},
+                  ),
                 ],
               ),
             ),

@@ -92,7 +92,11 @@ class CartScreen extends StatelessWidget {
                           ],
                         ),
                         const SizedBox(height: 30),
-                        CustomButton(text: "Checkout", isBorder: false),
+                        CustomButton(
+                          text: "Checkout",
+                          isBorder: false,
+                          onPreesed: () {},
+                        ),
                       ],
                     ),
             ],

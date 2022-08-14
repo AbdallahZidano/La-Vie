@@ -39,6 +39,7 @@ class SignupForm extends StatelessWidget {
           CustomButton(
             text: "Sign up",
             isBorder: false,
+            onPreesed: () {},
           ),
         ],
       ),

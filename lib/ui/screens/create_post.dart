@@ -86,7 +86,11 @@ class CreatePostScreen extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 30),
-                CustomButton(text: "Post", isBorder: false),
+                CustomButton(
+                  text: "Post",
+                  isBorder: false,
+                  onPreesed: () {},
+                ),
               ],
             ),
           ),

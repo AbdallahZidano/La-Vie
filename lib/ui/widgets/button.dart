@@ -4,13 +4,16 @@ import 'package:test/helper/constants/colors.dart';
 class CustomButton extends StatelessWidget {
   String text;
   bool isBorder;
-  CustomButton({required this.text, required this.isBorder});
+  Function() onPreesed;
+  CustomButton(
+      {required this.text, required this.isBorder, required this.onPreesed});
   final ColorHepler _colorHepler = ColorHepler();
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
+        onPressed: onPreesed,
         child: Text(
           text,
           style: TextStyle(
@@ -25,7 +28,6 @@ class CustomButton extends StatelessWidget {
               ? BorderSide(color: _colorHepler.brand, width: 2)
               : BorderSide.none,
         ),
-        onPressed: () {},
       ),
     );
   }
