@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:test/helper/constants/colors.dart';
 import 'package:test/helper/constants/image_paths.dart';
+import 'package:test/ui/screens/blogs.dart';
 import 'package:test/ui/widgets/button.dart';
 
 import '../widgets/details_item.dart';
@@ -72,7 +74,9 @@ class PlantDetailsScreen extends StatelessWidget {
                   CustomButton(
                     text: "Go To Blog",
                     isBorder: false,
-                    onPreesed: () {},
+                    onPreesed: () {
+                      Get.to(BlogsScreen());
+                    },
                   ),
                 ],
               ),
