@@ -7,6 +7,7 @@ import 'package:test/data/models/facebook_auth_model.dart';
 
 import '../../data/models/facebook_signin_model.dart';
 import '../../data/models/login.dart';
+import '../../data/models/user_data.dart';
 import '../../ui/screens/auth.dart';
 import '../../ui/screens/main_screen.dart';
 import '../../helper/dio.dart';
@@ -44,6 +45,7 @@ class LoginController extends GetxController {
           SharedKeys.signinType.toString(),
           SharedKeys.signinWithGoogle.toString(),
         );
+        saveUserInfo();
         Get.back();
         Get.to(MainScreen());
       }).catchError((e) {
@@ -78,6 +80,7 @@ class LoginController extends GetxController {
           .getUserData(fields: 'id,name,email,picture');
       var data = FacebookAuthModel.fromJson(userData);
       var userEmail = userData['email'] ?? "11ea87519e@boxomail.live";
+      showCustomDialog();
       await DioHelper.postData(
         url: '/api/v1/auth/facebook',
         data: {
@@ -97,6 +100,8 @@ class LoginController extends GetxController {
           SharedKeys.signinType.toString(),
           SharedKeys.signinWithFacebook.toString(),
         );
+        saveUserInfo();
+        Get.back();
         Get.to(MainScreen());
       }).catchError((e) {
         print(e);
@@ -107,6 +112,7 @@ class LoginController extends GetxController {
         );
       });
     } else {
+      Get.back();
       print(result.status);
       print(result.message);
       ScaffoldMessenger.of(context).showSnackBar(
@@ -129,6 +135,7 @@ class LoginController extends GetxController {
   }
 
   void loginWithApi(BuildContext context, String email, String password) {
+    showCustomDialog();
     print("start send request ......");
     DioHelper.postData(
       url: '/api/v1/auth/signin',
@@ -145,9 +152,12 @@ class LoginController extends GetxController {
         SharedKeys.signinType.toString(),
         SharedKeys.signinWithApi.toString(),
       );
+      saveUserInfo();
+      Get.back();
       Get.to(MainScreen());
     }).catchError((e) {
       if (e is DioError) {
+        Get.back();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(e.response.toString()),
@@ -176,5 +186,30 @@ class LoginController extends GetxController {
     } else {
       apiLogOut();
     }
+  }
+
+  saveUserInfo() {
+    String accessToken =
+        PreferenceUtils.getString(SharedKeys.accessToken.toString());
+    DioHelper.getDataWithHeaders(
+      url: '/api/v1/user/me',
+      query: {},
+      headers: {"Authorization": "Bearer $accessToken"},
+    ).then((value) async {
+      UserDataModel data = UserDataModel.fromJson(value);
+      await PreferenceUtils.setString(
+        SharedKeys.userName.toString(),
+        "${data.data.firstName} ${data.data.lastName}",
+      );
+      await PreferenceUtils.setString(
+        SharedKeys.userImageLink.toString(),
+        data.data.imageUrl,
+      );
+      await PreferenceUtils.setString(
+        SharedKeys.userPoints.toString(),
+        data.data.userPoints,
+      );
+      print("Done -----------------------------------");
+    });
   }
 }

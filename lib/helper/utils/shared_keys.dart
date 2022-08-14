@@ -7,4 +7,7 @@ enum SharedKeys {
   signinWithFacebook,
   signinWithApi,
   none,
+  userName,
+  userImageLink,
+  userPoints,
 }

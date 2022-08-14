@@ -22,6 +22,19 @@ class DioHelper {
     return response.data;
   }
 
+  static Future getDataWithHeaders({
+    required String url,
+    required Map<String, dynamic> query,
+    required Map<String, dynamic> headers,
+  }) async {
+    var response = await dio.get(
+      url,
+      queryParameters: query,
+      options: Options(headers: headers),
+    );
+    return response.data;
+  }
+
   static Future postData({
     required String url,
     required Map<String, dynamic> data,

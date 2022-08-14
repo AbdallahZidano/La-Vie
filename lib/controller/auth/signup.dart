@@ -3,14 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../data/models/signup.dart';
+import '../../data/models/user_data.dart';
 import '../../helper/dio.dart';
 import '../../helper/utils/shared_keys.dart';
 import '../../helper/utils/sharedpreferences.dart';
 import '../../ui/screens/main_screen.dart';
+import '../../ui/widgets/dialog_indicator.dart';
 
 class SignUpController extends GetxController {
   void signupWithApi(BuildContext context, String firstName, String lastName,
       String email, String password) {
+    showCustomDialog();
     print("start send request ......");
     DioHelper.postData(
       url: '/api/v1/auth/signup',
@@ -32,6 +35,8 @@ class SignUpController extends GetxController {
         SharedKeys.signinType.toString(),
         SharedKeys.signinWithApi.toString(),
       );
+      saveUserInfo();
+      Get.back();
       Get.to(MainScreen());
     }).catchError((e) {
       if (e is DioError) {
@@ -41,6 +46,31 @@ class SignUpController extends GetxController {
           ),
         );
       }
+    });
+  }
+
+  saveUserInfo() {
+    String accessToken =
+        PreferenceUtils.getString(SharedKeys.accessToken.toString());
+    DioHelper.getDataWithHeaders(
+      url: '/api/v1/user/me',
+      query: {},
+      headers: {"Authorization": "Bearer $accessToken"},
+    ).then((value) async {
+      UserDataModel data = UserDataModel.fromJson(value);
+      await PreferenceUtils.setString(
+        SharedKeys.userName.toString(),
+        "${data.data.firstName} ${data.data.lastName}",
+      );
+      await PreferenceUtils.setString(
+        SharedKeys.userImageLink.toString(),
+        data.data.imageUrl,
+      );
+      await PreferenceUtils.setString(
+        SharedKeys.userPoints.toString(),
+        data.data.userPoints,
+      );
+      print("Done -----------------------------------");
     });
   }
 }
