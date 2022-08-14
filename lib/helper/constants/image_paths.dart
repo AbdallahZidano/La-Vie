@@ -1,0 +1,31 @@
+class ImagePaths {
+  String google = 'assets/images/google.png';
+  String facebook = 'assets/images/facebook.png';
+  String brand = 'assets/images/brand.png';
+  String logo = 'assets/images/logo.png';
+  String treeLeafs = 'assets/images/tree_leafs.png';
+  String person = 'assets/images/person.png';
+  String tree = 'assets/images/tree.jpg';
+  String star = 'assets/images/star.png';
+  String icon = 'assets/images/icon.png';
+  String like = 'assets/images/like.png';
+  String plants = 'assets/images/plants.png';
+  String man = 'assets/images/man.PNG';
+  String frame = 'assets/images/frame.png';
+  String home = 'assets/images/home_icon.png';
+  String qr = 'assets/images/qr_code.png';
+  String personIcon = 'assets/images/person_icon.png';
+  String treeLeafsIcon = 'assets/images/tree_leafs_icon.png';
+  String bell = 'assets/images/bell.png';
+  String cart = 'assets/images/cart.png';
+  String plant1 = 'assets/images/plant_1.png';
+  String plant2 = 'assets/images/plant_2.png';
+  String plant3 = 'assets/images/plant_3.png';
+  String plant4 = 'assets/images/plant_4.png';
+  String woman = 'assets/images/woman.png';
+  String empty = 'assets/images/empty.png';
+  String plant_5 = 'assets/images/plant_5.png';
+  String sun = 'assets/images/sun.png';
+  String water = 'assets/images/water.png';
+  String temp = 'assets/images/temp.png';
+}
