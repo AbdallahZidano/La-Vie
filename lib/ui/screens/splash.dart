@@ -11,6 +11,11 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   final SplashController _controller = Get.put(SplashController());
   final ImagePaths _imagePaths = ImagePaths();
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   void initState() {

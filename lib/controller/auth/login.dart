@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
@@ -5,6 +6,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:test/data/models/facebook_auth_model.dart';
 
 import '../../data/models/facebook_signin_model.dart';
+import '../../data/models/login.dart';
 import '../../ui/screens/auth.dart';
 import '../../ui/screens/main_screen.dart';
 import '../../helper/dio.dart';
@@ -124,6 +126,35 @@ class LoginController extends GetxController {
       SharedKeys.none.toString(),
     );
     Get.to(AuthScreen());
+  }
+
+  void loginWithApi(BuildContext context, String email, String password) {
+    print("start send request ......");
+    DioHelper.postData(
+      url: '/api/v1/auth/signin',
+      data: {"email": email, "password": password},
+    ).then((value) async {
+      print("Done -----------------------------------");
+      print(value);
+      LoginModel data = LoginModel.fromJson(value);
+      print("Done -----------------------------------");
+      await PreferenceUtils.setString(
+          SharedKeys.accessToken.toString(), data.data.accessToken);
+      await PreferenceUtils.setBool(SharedKeys.isLogin.toString(), true);
+      await PreferenceUtils.setString(
+        SharedKeys.signinType.toString(),
+        SharedKeys.signinWithApi.toString(),
+      );
+      Get.to(MainScreen());
+    }).catchError((e) {
+      if (e is DioError) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(e.response.toString()),
+          ),
+        );
+      }
+    });
   }
 
   void apiLogOut() async {

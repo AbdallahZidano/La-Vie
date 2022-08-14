@@ -4,7 +4,19 @@ import 'package:get/get.dart';
 import '../widgets/button.dart';
 import '../widgets/login_text_field.dart';
 
-class CreatePostScreen extends StatelessWidget {
+class CreatePostScreen extends StatefulWidget {
+  @override
+  State<CreatePostScreen> createState() => _CreatePostScreenState();
+}
+
+class _CreatePostScreenState extends State<CreatePostScreen> {
+  final TextEditingController _titleController = TextEditingController();
+  @override
+  void dispose() {
+    _titleController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -62,7 +74,12 @@ class CreatePostScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 30),
-                LoginTextField(lable: "Title"),
+                LoginTextField(
+                  controller: _titleController,
+                  lable: "Title",
+                  obscureText: false,
+                  inputType: TextInputType.text,
+                ),
                 const SizedBox(height: 30),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

@@ -6,11 +6,26 @@ import 'package:test/helper/constants/image_paths.dart';
 
 import 'recent_search_item.dart';
 
-class HomeSearchScreen extends StatelessWidget {
+class HomeSearchScreen extends StatefulWidget {
+  @override
+  State<HomeSearchScreen> createState() => _HomeSearchScreenState();
+}
+
+class _HomeSearchScreenState extends State<HomeSearchScreen> {
   final ColorHepler _colorHepler = ColorHepler();
+
   final ImagePaths _imagePaths = ImagePaths();
+
   final SearchConteroller _conteroller = Get.put(SearchConteroller());
+
   bool notFound = false;
+
+  @override
+  void dispose() {
+    _conteroller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(

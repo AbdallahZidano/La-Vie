@@ -7,10 +7,22 @@ import 'package:test/ui/widgets/button.dart';
 
 import '../widgets/edit_profile_card.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
   final ColorHepler _colorHepler = ColorHepler();
+
   final ImagePaths _imagePaths = ImagePaths();
+
   final LoginController _controller = Get.put(LoginController());
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

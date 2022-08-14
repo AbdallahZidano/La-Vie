@@ -1,13 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:test/controller/auth/signup.dart';
 import 'package:test/helper/constants/colors.dart';
 
 import '../../helper/constants/image_paths.dart';
 import 'button.dart';
 import 'login_text_field.dart';
 
-class SignupForm extends StatelessWidget {
+class SignupForm extends StatefulWidget {
+  @override
+  State<SignupForm> createState() => _SignupFormState();
+}
+
+class _SignupFormState extends State<SignupForm> {
   final ImagePaths _imagePaths = ImagePaths();
+
   final ColorHepler _colorHepler = ColorHepler();
+
+  final SignUpController _controller = Get.put(SignUpController());
+  final TextEditingController _firstNameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _conPasswordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,26 +41,68 @@ class SignupForm extends StatelessWidget {
             children: [
               SizedBox(
                 width: width / 2.6,
-                child: LoginTextField(lable: 'First Name'),
+                child: LoginTextField(
+                  controller: _firstNameController,
+                  lable: 'First Name',
+                  obscureText: false,
+                  inputType: TextInputType.text,
+                ),
               ),
               SizedBox(width: width / 30),
               SizedBox(
                 width: width / 2.6,
-                child: LoginTextField(lable: 'Late Name'),
+                child: LoginTextField(
+                  controller: _lastNameController,
+                  lable: 'Late Name',
+                  obscureText: false,
+                  inputType: TextInputType.text,
+                ),
               ),
             ],
           ),
           const SizedBox(height: 10),
-          LoginTextField(lable: 'Email'),
+          LoginTextField(
+            controller: _emailController,
+            lable: 'Email',
+            obscureText: false,
+            inputType: TextInputType.emailAddress,
+          ),
           const SizedBox(height: 10),
-          LoginTextField(lable: 'Password'),
+          LoginTextField(
+            controller: _passwordController,
+            lable: 'Password',
+            obscureText: true,
+            inputType: TextInputType.visiblePassword,
+          ),
           const SizedBox(height: 10),
-          LoginTextField(lable: 'Confirm Password'),
+          LoginTextField(
+            controller: _conPasswordController,
+            lable: 'Confirm Password',
+            obscureText: true,
+            inputType: TextInputType.visiblePassword,
+          ),
           const SizedBox(height: 10),
           CustomButton(
             text: "Sign up",
             isBorder: false,
-            onPreesed: () {},
+            onPreesed: () {
+              if (_firstNameController.text != '' &&
+                  _lastNameController.text != '' &&
+                  _emailController.text != '' &&
+                  _passwordController.text != '' &&
+                  _conPasswordController.text != '') {
+                if (_passwordController.text == _conPasswordController.text) {
+                  FocusManager.instance.primaryFocus?.unfocus();
+                  _controller.signupWithApi(
+                    context,
+                    _firstNameController.text,
+                    _lastNameController.text,
+                    _emailController.text,
+                    _passwordController.text,
+                  );
+                }
+              }
+            },
           ),
         ],
       ),

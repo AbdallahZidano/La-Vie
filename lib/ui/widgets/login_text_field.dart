@@ -3,8 +3,16 @@ import 'package:test/helper/constants/colors.dart';
 
 class LoginTextField extends StatelessWidget {
   String lable;
+  bool obscureText;
+  TextInputType inputType;
+  TextEditingController controller;
 
-  LoginTextField({required this.lable});
+  LoginTextField({
+    required this.lable,
+    required this.obscureText,
+    required this.inputType,
+    required this.controller,
+  });
 
   final ColorHepler _colorHepler = ColorHepler();
 
@@ -13,6 +21,7 @@ class LoginTextField extends StatelessWidget {
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
             lable,
@@ -22,11 +31,14 @@ class LoginTextField extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 5),
-          const SizedBox(
+          SizedBox(
             height: 40,
             child: TextField(
-              style: TextStyle(fontSize: 17),
-              decoration: InputDecoration(
+              controller: controller,
+              keyboardType: inputType,
+              obscureText: obscureText,
+              style: const TextStyle(fontSize: 16),
+              decoration: const InputDecoration(
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(width: 1, color: Colors.grey),
                 ),

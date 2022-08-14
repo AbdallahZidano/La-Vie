@@ -7,11 +7,26 @@ import '../../helper/constants/image_paths.dart';
 import 'button.dart';
 import 'login_text_field.dart';
 
-class LoginForm extends StatelessWidget {
+class LoginForm extends StatefulWidget {
+  @override
+  State<LoginForm> createState() => _LoginFormState();
+}
+
+class _LoginFormState extends State<LoginForm> {
   final ImagePaths _imagePaths = ImagePaths();
+
   final ColorHepler _colorHepler = ColorHepler();
 
   final LoginController _controller = Get.put(LoginController());
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  @override
+  void dispose() {
+    _controller.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,12 +34,22 @@ class LoginForm extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 35),
-          child: LoginTextField(lable: 'Email'),
+          child: LoginTextField(
+            controller: _emailController,
+            lable: 'Email',
+            obscureText: false,
+            inputType: TextInputType.emailAddress,
+          ),
         ),
         const SizedBox(height: 20),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 35),
-          child: LoginTextField(lable: 'Password'),
+          child: LoginTextField(
+            controller: _passwordController,
+            lable: 'Password',
+            obscureText: true,
+            inputType: TextInputType.visiblePassword,
+          ),
         ),
         const SizedBox(height: 20),
         Padding(
@@ -32,7 +57,18 @@ class LoginForm extends StatelessWidget {
           child: CustomButton(
             text: "Login",
             isBorder: false,
-            onPreesed: () {},
+            onPreesed: () {
+              if (_passwordController.text != '' &&
+                  _emailController.text != '') {
+                FocusManager.instance.primaryFocus?.unfocus();
+
+                _controller.loginWithApi(
+                  context,
+                  _emailController.text,
+                  _passwordController.text,
+                );
+              }
+            },
           ),
         ),
       ],
