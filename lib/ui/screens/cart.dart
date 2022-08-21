@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:test/controller/home.dart';
 
 import '../../helper/constants/colors.dart';
 import '../../ui/widgets/empty_widget.dart';
 import '../widgets/button.dart';
 import '../widgets/cart_item.dart';
 
-class CartScreen extends StatelessWidget {
+class CartScreen extends StatefulWidget {
+  @override
+  State<CartScreen> createState() => _CartScreenState();
+}
+
+class _CartScreenState extends State<CartScreen> {
   final ColorHepler _colorHepler = ColorHepler();
-  bool empty = true;
+
+  final HomeController _controller = Get.put(HomeController());
+
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -41,7 +49,7 @@ class CartScreen extends StatelessWidget {
                   const Spacer(flex: 2),
                 ],
               ),
-              empty
+              _controller.cartProducts.isEmpty
                   ? Column(
                       children: [
                         const SizedBox(height: 150),
@@ -54,21 +62,32 @@ class CartScreen extends StatelessWidget {
                     )
                   : Column(
                       children: [
-                        SizedBox(
-                          width: double.infinity,
-                          height: height / 1.45,
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: 5,
-                            itemBuilder: (contex, index) {
-                              return Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 5),
-                                child: CartItem(),
-                              );
-                            },
-                          ),
-                        ),
+                        GetBuilder<HomeController>(builder: (context) {
+                          return SizedBox(
+                            width: double.infinity,
+                            height: height / 1.45,
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: _controller.cartProducts.length,
+                              itemBuilder: (contex, index) {
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 10, horizontal: 5),
+                                  child: CartItem(
+                                    index: index,
+                                    name: _controller.cartProducts[index].name,
+                                    price: _controller.cartProducts[index].price
+                                        .toString(),
+                                    imageUrl: _controller
+                                        .cartProducts[index].imageUrl,
+                                    quantity: _controller
+                                        .cartProducts[index].quantity,
+                                  ),
+                                );
+                              },
+                            ),
+                          );
+                        }),
                         const SizedBox(
                           height: 10,
                         ),
@@ -82,13 +101,15 @@ class CartScreen extends StatelessWidget {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            Text(
-                              "180,000 Egp",
-                              style: TextStyle(
-                                  color: _colorHepler.brand,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 17),
-                            )
+                            GetBuilder<HomeController>(builder: (context) {
+                              return Text(
+                                _controller.totalPrice.toString(),
+                                style: TextStyle(
+                                    color: _colorHepler.brand,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 17),
+                              );
+                            })
                           ],
                         ),
                         const SizedBox(height: 30),

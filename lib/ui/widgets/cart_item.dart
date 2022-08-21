@@ -1,8 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:test/controller/home.dart';
 import 'package:test/helper/constants/colors.dart';
 import 'package:test/helper/constants/image_paths.dart';
 
 class CartItem extends StatefulWidget {
+  int index;
+  String name;
+  String price;
+  String imageUrl;
+  int quantity;
+  CartItem({
+    required this.index,
+    required this.name,
+    required this.price,
+    required this.imageUrl,
+    required this.quantity,
+  });
   @override
   State<CartItem> createState() => _CartItemState();
 }
@@ -11,8 +25,7 @@ class _CartItemState extends State<CartItem> {
   final ImagePaths _imagePaths = ImagePaths();
 
   final ColorHepler _colorHepler = ColorHepler();
-
-  int cuont = 1;
+  final HomeController _controller = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +53,9 @@ class _CartItemState extends State<CartItem> {
             decoration: BoxDecoration(
               image: DecorationImage(
                 fit: BoxFit.cover,
-                image: AssetImage(
-                  _imagePaths.woman,
+                image: NetworkImage(
+                  'https://lavie.orangedigitalcenteregypt.com' +
+                      widget.imageUrl,
                 ),
               ),
               borderRadius: BorderRadius.circular(10),
@@ -52,16 +66,20 @@ class _CartItemState extends State<CartItem> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 20),
-              const Text(
-                "Cactus plant",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
+              SizedBox(
+                width: 160,
+                child: Text(
+                  widget.name,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
                 ),
               ),
               const SizedBox(height: 5),
               Text(
-                "200 EGP",
+                "${widget.price} EGP",
                 style: TextStyle(
                   color: _colorHepler.brand,
                   fontSize: 16,
@@ -82,11 +100,7 @@ class _CartItemState extends State<CartItem> {
                       children: [
                         InkWell(
                           onTap: () {
-                            setState(() {
-                              if (cuont > 1) {
-                                --cuont;
-                              }
-                            });
+                            _controller.productDecreaseQuantity(widget.index);
                           },
                           child: Padding(
                             padding: const EdgeInsets.all(5.0),
@@ -97,14 +111,11 @@ class _CartItemState extends State<CartItem> {
                             ),
                           ),
                         ),
-                        Text(cuont.toString()),
+                        Text(_controller.cartProducts[widget.index].quantity
+                            .toString()),
                         InkWell(
                           onTap: () {
-                            setState(() {
-                              if (cuont < 10) {
-                                ++cuont;
-                              }
-                            });
+                            _controller.productIncreaseQuantity(widget.index);
                           },
                           child: Padding(
                             padding: const EdgeInsets.all(5.0),
@@ -120,7 +131,9 @@ class _CartItemState extends State<CartItem> {
                   ),
                   const SizedBox(width: 40),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      _controller.removeFromCart(widget.index);
+                    },
                     icon: Icon(
                       Icons.delete,
                       color: _colorHepler.brand,

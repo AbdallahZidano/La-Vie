@@ -53,7 +53,9 @@ class HomeCard extends StatelessWidget {
                 child: SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      _controller.addToCart(index);
+                    },
                     child: const Text(
                       'Add To Cart',
                       style: TextStyle(

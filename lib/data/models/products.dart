@@ -51,7 +51,7 @@ class Data {
     imageUrl = json['imageUrl'];
     type = json['type'];
     price = json['price'];
-    quantity = 0;
+    quantity = 1;
     available = json['available'];
     seed = json['seed'] != null
         ? Seed.fromJson(json['seed'])
