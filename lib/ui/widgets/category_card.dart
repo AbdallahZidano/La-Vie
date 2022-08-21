@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:test/helper/constants/colors.dart';
 
-class CategoryCrad extends StatelessWidget {
+class CategoryCrad extends StatefulWidget {
   bool isSelected;
   String text;
   CategoryCrad({
@@ -9,6 +9,11 @@ class CategoryCrad extends StatelessWidget {
     required this.text,
   });
 
+  @override
+  State<CategoryCrad> createState() => _CategoryCradState();
+}
+
+class _CategoryCradState extends State<CategoryCrad> {
   final ColorHepler _colorHepler = ColorHepler();
 
   @override
@@ -20,18 +25,22 @@ class CategoryCrad extends StatelessWidget {
         height: 30,
         child: Center(
           child: Text(
-            "All",
+            widget.text,
             style: TextStyle(
-                color: isSelected ? _colorHepler.brand : _colorHepler.text),
+                color: widget.isSelected
+                    ? _colorHepler.brand
+                    : _colorHepler.lightGrey),
           ),
         ),
         decoration: BoxDecoration(
-          color: isSelected
+          color: widget.isSelected
               ? Colors.white
-              : const Color.fromRGBO(248, 248, 248, 1),
+              : const Color.fromARGB(255, 240, 240, 240),
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
-            color: isSelected ? _colorHepler.brand : _colorHepler.text,
+            color: widget.isSelected
+                ? _colorHepler.brand
+                : const Color.fromARGB(255, 240, 240, 240),
           ),
         ),
       ),

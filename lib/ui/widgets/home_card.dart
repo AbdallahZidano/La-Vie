@@ -1,19 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:test/controller/home.dart';
 
 import '../../helper/constants/colors.dart';
 import '../../helper/constants/image_paths.dart';
 
 class HomeCard extends StatelessWidget {
-  final double width;
+  int index;
+  String name;
+  String price;
+  String imageUrl;
+  int quantity;
+  HomeCard({
+    required this.name,
+    required this.price,
+    required this.imageUrl,
+    required this.index,
+    required this.quantity,
+  });
+
   final ImagePaths _imagePaths = ImagePaths();
   final ColorHepler _colorHepler = ColorHepler();
-
-  HomeCard({required this.width});
+  final HomeController _controller = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: width / 2.4,
+      // width: width / 2.4,
       height: 250,
       child: Stack(
         children: [
@@ -57,12 +70,12 @@ class HomeCard extends StatelessWidget {
             ),
           ),
           Align(
-            alignment: const AlignmentDirectional(-0.8, -1),
-            child: Image.asset(
-              _imagePaths.plant2,
+            alignment: const AlignmentDirectional(-0.9, -1.2),
+            child: Image.network(
+              imageUrl,
               width: 100,
               height: 150,
-              fit: BoxFit.cover,
+              fit: BoxFit.contain,
             ),
           ),
           Align(
@@ -70,14 +83,16 @@ class HomeCard extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 Text(
-                  "GARDENIA PLANT",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                  name,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 15),
                 ),
                 Text(
-                  "70 EGP",
-                  style: TextStyle(
+                  price + " EGP",
+                  style: const TextStyle(
                     fontSize: 12,
                     // fontWeight: FontWeight.bold,
                   ),
@@ -96,17 +111,24 @@ class HomeCard extends StatelessWidget {
                     color: const Color.fromRGBO(245, 245, 245, 1),
                     borderRadius: BorderRadius.circular(3),
                   ),
-                  child: Icon(
-                    Icons.remove,
-                    size: 12,
-                    color: _colorHepler.text,
+                  child: InkWell(
+                    onTap: () {
+                      _controller.productDecreaseQuantity(index);
+                    },
+                    child: Icon(
+                      Icons.remove,
+                      size: 12,
+                      color: _colorHepler.text,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 5),
-                const Text(
-                  '1',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
+                GetBuilder<HomeController>(builder: (context) {
+                  return Text(
+                    quantity.toString(),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  );
+                }),
                 const SizedBox(width: 5),
                 Container(
                   padding: const EdgeInsets.all(2),
@@ -114,10 +136,15 @@ class HomeCard extends StatelessWidget {
                     color: const Color.fromRGBO(245, 245, 245, 1),
                     borderRadius: BorderRadius.circular(3),
                   ),
-                  child: Icon(
-                    Icons.add,
-                    size: 12,
-                    color: _colorHepler.text,
+                  child: InkWell(
+                    onTap: () {
+                      _controller.productIncreaseQuantity(index);
+                    },
+                    child: Icon(
+                      Icons.add,
+                      size: 12,
+                      color: _colorHepler.text,
+                    ),
                   ),
                 ),
               ],

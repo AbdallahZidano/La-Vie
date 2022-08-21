@@ -34,13 +34,14 @@ class _MainScreenState extends State<MainScreen> {
     return SafeArea(
       child: Scaffold(
         extendBody: true,
-        backgroundColor: const Color.fromRGBO(254, 254, 254, 1),
+        backgroundColor: Colors.white,
         bottomNavigationBar: CurvedNavigationBar(
           index: 2,
           height: 60,
           buttonBackgroundColor: _colorHepler.brand,
           backgroundColor: Colors.transparent,
-          animationDuration: const Duration(milliseconds: 500),
+          color: const Color.fromARGB(255, 246, 246, 246),
+          animationDuration: const Duration(milliseconds: 700),
           items: <Widget>[
             Padding(
               padding: const EdgeInsets.all(8.0),

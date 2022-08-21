@@ -41,37 +41,36 @@ class NotificationScreen extends StatelessWidget {
   ];
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          backgroundColor: Colors.white,
-          elevation: 0,
-          title: const Text(
-            "Notification",
-            style: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-            ),
+    return Scaffold(
+      extendBody: true,
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: Colors.white,
+        elevation: 0,
+        title: const Text(
+          "Notification",
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
           ),
         ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: ListView.builder(
-              itemCount: notifications.length,
-              itemBuilder: (context, index) {
-                return Column(
-                  children: [
-                    NotifiactionItem(
-                      title: notifications[index]['title'].toString(),
-                      subTitle: notifications[index]['subTitle'].toString(),
-                      subject: notifications[index]['subject'].toString(),
-                    ),
-                    const Divider(thickness: 1),
-                  ],
-                );
-              }),
-        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: ListView.builder(
+            itemCount: notifications.length,
+            itemBuilder: (context, index) {
+              return Column(
+                children: [
+                  NotifiactionItem(
+                    title: notifications[index]['title'].toString(),
+                    subTitle: notifications[index]['subTitle'].toString(),
+                    subject: notifications[index]['subject'].toString(),
+                  ),
+                  const Divider(thickness: 1),
+                ],
+              );
+            }),
       ),
     );
   }
