@@ -23,8 +23,6 @@ class HomeController extends GetxController {
     ).then((value) async {
       ProductsModel data = ProductsModel.fromJson(value);
       products = data.data;
-      print("---------------------------------");
-      print(data.data[0].quantity);
       update();
     });
   }
@@ -47,25 +45,6 @@ class HomeController extends GetxController {
     }
   }
 
-  cartProductIncrease(int index) {
-    if (cartProducts[index].quantity >= 1 &&
-        cartProducts[index].quantity < 10) {
-      cartProducts[index].quantity = cartProducts[index].quantity + 1;
-      print("Product Increase Quantity Successfully");
-      calculateTotalPrice();
-      update();
-    }
-  }
-
-  cartProductDecrease(int index) {
-    if (cartProducts[index].quantity > 1) {
-      cartProducts[index].quantity = cartProducts[index].quantity - 1;
-      print("Product Decrease Quantity Successfully");
-      calculateTotalPrice();
-      update();
-    }
-  }
-
   void addToCart(BuildContext context, int index) {
     int productIndex = cartProducts
         .indexWhere((e) => e.productId == products[index].productId);
@@ -73,26 +52,19 @@ class HomeController extends GetxController {
       for (var item in cartProducts) {
         if (item.productId == cartProducts[productIndex].productId) {
           productIncreaseQuantity(index);
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              dismissDirection: DismissDirection.up,
-              backgroundColor: _colorHepler.brand,
-              content: const Text(
-                "The product is added to cart successfully",
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
-          );
           update();
         }
       }
     } else {
       cartProducts.add(products[index]);
       calculateTotalPrice();
-      productIncreaseQuantity(index);
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("The product is added to cart successfully"),
+        SnackBar(
+          backgroundColor: _colorHepler.brand,
+          content: const Text(
+            "The product is added to cart successfully",
+            style: TextStyle(color: Colors.white),
+          ),
         ),
       );
       update();
@@ -100,14 +72,15 @@ class HomeController extends GetxController {
   }
 
   void removeFromCart(int index) async {
-    int productIndex = products
-        .indexWhere((e) => e.productId == cartProducts[index].productId);
-    products[productIndex].quantity = 1;
-
-    cartProducts.removeAt(index);
-
-    calculateTotalPrice();
-    // print("the product removed from cart successfully");
+    int productIndexInCart = cartProducts
+        .indexWhere((e) => e.productId == products[index].productId);
+    products[index].quantity = 1;
+    if (cartProducts.length == 1) {
+      cartProducts.clear();
+    } else {
+      cartProducts.removeAt(productIndexInCart);
+      calculateTotalPrice();
+    }
     update();
   }
 

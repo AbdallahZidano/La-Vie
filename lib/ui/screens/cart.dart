@@ -49,78 +49,84 @@ class _CartScreenState extends State<CartScreen> {
                   const Spacer(flex: 2),
                 ],
               ),
-              _controller.cartProducts.isEmpty
-                  ? Column(
-                      children: [
-                        const SizedBox(height: 150),
-                        EmptyWidget(
-                          title: "Your cart is empty",
-                          text:
-                              "Sorry, the keyword you entered cannot be found, please check again or search with another keyword.",
-                        ),
-                      ],
-                    )
-                  : Column(
-                      children: [
-                        GetBuilder<HomeController>(builder: (context) {
-                          return SizedBox(
-                            width: double.infinity,
-                            height: height / 1.45,
-                            child: ListView.builder(
-                              physics: const BouncingScrollPhysics(),
-                              shrinkWrap: true,
-                              itemCount: _controller.cartProducts.length,
-                              itemBuilder: (contex, index) {
-                                return Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 10, horizontal: 5),
-                                  child: CartItem(
-                                    index: index,
-                                    name: _controller.products[index].name,
-                                    price: _controller.products[index].price
-                                        .toString(),
-                                    imageUrl:
-                                        _controller.products[index].imageUrl,
-                                    quantity:
-                                        _controller.products[index].quantity,
-                                  ),
-                                );
-                              },
-                            ),
-                          );
-                        }),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text(
-                              "Totla",
-                              style: TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            GetBuilder<HomeController>(builder: (context) {
-                              return Text(
-                                _controller.totalPrice.toString(),
-                                style: TextStyle(
-                                    color: _colorHepler.brand,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 17),
+              GetBuilder<HomeController>(builder: (context) {
+                return _controller.cartProducts.isEmpty
+                    ? Column(
+                        children: [
+                          const SizedBox(height: 150),
+                          EmptyWidget(
+                            title: "Your cart is empty",
+                            text:
+                                "Sorry, the keyword you entered cannot be found, please check again or search with another keyword.",
+                          ),
+                        ],
+                      )
+                    : Column(
+                        children: [
+                          GetBuilder<HomeController>(
+                            builder: (context) {
+                              return SizedBox(
+                                width: double.infinity,
+                                height: height / 1.45,
+                                child: ListView.builder(
+                                  physics: const BouncingScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemCount: _controller.cartProducts.length,
+                                  itemBuilder: (contex, index) {
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 10, horizontal: 5),
+                                      child: CartItem(
+                                        index: index,
+                                        name: _controller
+                                            .cartProducts[index].name,
+                                        price: _controller
+                                            .cartProducts[index].price
+                                            .toString(),
+                                        imageUrl: _controller
+                                            .cartProducts[index].imageUrl,
+                                        quantity: _controller
+                                            .cartProducts[index].quantity,
+                                      ),
+                                    );
+                                  },
+                                ),
                               );
-                            })
-                          ],
-                        ),
-                        const SizedBox(height: 30),
-                        CustomButton(
-                          text: "Checkout",
-                          isBorder: false,
-                          onPreesed: () {},
-                        ),
-                      ],
-                    ),
+                            },
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text(
+                                "Totla",
+                                style: TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              GetBuilder<HomeController>(builder: (context) {
+                                return Text(
+                                  _controller.totalPrice.toString(),
+                                  style: TextStyle(
+                                      color: _colorHepler.brand,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 17),
+                                );
+                              })
+                            ],
+                          ),
+                          const SizedBox(height: 30),
+                          CustomButton(
+                            text: "Checkout",
+                            isBorder: false,
+                            onPreesed: () {},
+                          ),
+                        ],
+                      );
+              }),
             ],
           ),
         ),

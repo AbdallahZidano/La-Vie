@@ -100,7 +100,7 @@ class _CartItemState extends State<CartItem> {
                       children: [
                         InkWell(
                           onTap: () {
-                            _controller.cartProductDecrease(widget.index);
+                            _controller.productDecreaseQuantity(widget.index);
                           },
                           child: Padding(
                             padding: const EdgeInsets.all(5.0),
@@ -115,7 +115,7 @@ class _CartItemState extends State<CartItem> {
                             .toString()),
                         InkWell(
                           onTap: () {
-                            _controller.cartProductIncrease(widget.index);
+                            _controller.productIncreaseQuantity(widget.index);
                           },
                           child: Padding(
                             padding: const EdgeInsets.all(5.0),
