@@ -92,15 +92,35 @@ class _SignupFormState extends State<SignupForm> {
                   _passwordController.text != '' &&
                   _conPasswordController.text != '') {
                 if (_passwordController.text == _conPasswordController.text) {
-                  FocusManager.instance.primaryFocus?.unfocus();
-                  _controller.signupWithApi(
-                    context,
-                    _firstNameController.text,
-                    _lastNameController.text,
-                    _emailController.text,
-                    _passwordController.text,
+                  if (_emailController.text.isEmail) {
+                    FocusManager.instance.primaryFocus?.unfocus();
+                    _controller.signupWithApi(
+                      context,
+                      _firstNameController.text,
+                      _lastNameController.text,
+                      _emailController.text,
+                      _passwordController.text,
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text("Please enter a valid email"),
+                      ),
+                    );
+                  }
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Password fields do not match"),
+                    ),
                   );
                 }
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text("Please Entr your data"),
+                  ),
+                );
               }
             },
           ),

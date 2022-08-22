@@ -60,12 +60,26 @@ class _LoginFormState extends State<LoginForm> {
             onPreesed: () {
               if (_passwordController.text != '' &&
                   _emailController.text != '') {
-                FocusManager.instance.primaryFocus?.unfocus();
+                if (_emailController.text.isEmail) {
+                  FocusManager.instance.primaryFocus?.unfocus();
 
-                _controller.loginWithApi(
-                  context,
-                  _emailController.text,
-                  _passwordController.text,
+                  _controller.loginWithApi(
+                    context,
+                    _emailController.text,
+                    _passwordController.text,
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Please enter a valid email"),
+                    ),
+                  );
+                }
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text("Please Entr your data"),
+                  ),
                 );
               }
             },
