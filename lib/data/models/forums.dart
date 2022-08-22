@@ -15,14 +15,6 @@ class ForumsModel {
       });
     }
   }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['type'] = type;
-    data['message'] = message;
-    data['data'] = this.data.map((v) => v.toJson()).toList();
-    return data;
-  }
 }
 
 class Data {
@@ -47,7 +39,8 @@ class Data {
     forumId = json['forumId'];
     title = json['title'];
     description = json['description'];
-    imageUrl = json['imageUrl'];
+    imageUrl =
+        json['imageUrl'] ?? "/uploads/04edd753-8fd8-4baa-bbe0-4853282b1fd1.jpg";
     userId = json['userId'];
     if (json['ForumLikes'] != null) {
       forumLikes = <ForumLikes>[];
@@ -62,22 +55,6 @@ class Data {
       });
     }
   }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['forumId'] = forumId;
-    data['title'] = title;
-    data['description'] = description;
-    data['imageUrl'] = imageUrl;
-    data['userId'] = userId;
-    if (forumLikes != null) {
-      data['ForumLikes'] = forumLikes.map((v) => v.toJson()).toList();
-    }
-    if (forumComments != null) {
-      data['ForumComments'] = forumComments.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
 }
 
 class ForumLikes {
@@ -89,13 +66,6 @@ class ForumLikes {
   ForumLikes.fromJson(Map<String, dynamic> json) {
     forumId = json['forumId'];
     userId = json['userId'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['forumId'] = forumId;
-    data['userId'] = userId;
-    return data;
   }
 }
 
@@ -119,15 +89,5 @@ class ForumComments {
     userId = json['userId'];
     comment = json['comment'];
     createdAt = json['createdAt'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['forumCommentId'] = forumCommentId;
-    data['forumId'] = forumId;
-    data['userId'] = userId;
-    data['comment'] = comment;
-    data['createdAt'] = createdAt;
-    return data;
   }
 }

@@ -1,10 +1,30 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:test/helper/constants/colors.dart';
 import 'package:test/helper/constants/image_paths.dart';
 
 class PostCard extends StatelessWidget {
+  String title;
+  String description;
+  String imageUrl;
+  int likes;
+  int comments;
+  String userImage;
+  String userName;
+
+  PostCard({
+    required this.title,
+    required this.description,
+    required this.imageUrl,
+    required this.likes,
+    required this.comments,
+    required this.userImage,
+    required this.userName,
+  });
+
   final ImagePaths _imagePaths = ImagePaths();
   final ColorHepler _colorHepler = ColorHepler();
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -41,16 +61,17 @@ class PostCard extends StatelessWidget {
                       children: [
                         CircleAvatar(
                           radius: 23,
-                          foregroundImage: AssetImage(_imagePaths.man),
+                          foregroundImage:
+                              CachedNetworkImageProvider(userImage),
                         ),
                         const SizedBox(width: 10),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            const Text(
-                              "Abdallah Mostafa Zidan",
-                              style: TextStyle(
+                            Text(
+                              userName,
+                              style: const TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -68,7 +89,7 @@ class PostCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      "how to treat plants",
+                      title,
                       style: TextStyle(
                         color: _colorHepler.brand,
                         fontWeight: FontWeight.bold,
@@ -76,7 +97,7 @@ class PostCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      "It is a long established gact that a reader will be distracted",
+                      description,
                       style: TextStyle(
                         fontSize: 11,
                         color: _colorHepler.text,
@@ -88,8 +109,9 @@ class PostCard extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 height: 130,
-                child: Image.asset(
-                  _imagePaths.plants,
+                child: CachedNetworkImage(
+                  imageUrl:
+                      'https://lavie.orangedigitalcenteregypt.com' + imageUrl,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -101,14 +123,20 @@ class PostCard extends StatelessWidget {
           children: [
             Image.asset(_imagePaths.like),
             const SizedBox(width: 5),
-            Text(
-              "0 Likes",
-              style: TextStyle(color: _colorHepler.text, fontSize: 12),
+            InkWell(
+              onTap: () {},
+              child: Text(
+                "$likes Likes",
+                style: TextStyle(color: _colorHepler.text, fontSize: 12),
+              ),
             ),
             const Spacer(flex: 1),
-            Text(
-              "0 Replies",
-              style: TextStyle(color: _colorHepler.text, fontSize: 12),
+            InkWell(
+              onTap: () {},
+              child: Text(
+                "$comments Replies",
+                style: TextStyle(color: _colorHepler.text, fontSize: 12),
+              ),
             ),
             const Spacer(flex: 3),
           ],

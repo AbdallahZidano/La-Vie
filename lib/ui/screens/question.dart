@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:test/helper/constants/colors.dart';
+import 'package:test/ui/screens/main_screen.dart';
 import 'package:test/ui/widgets/button.dart';
 
 import '../widgets/question_card.dart';
@@ -96,7 +98,9 @@ class QuestionScreen extends StatelessWidget {
                     child: CustomButton(
                       text: "Next",
                       isBorder: false,
-                      onPreesed: () {},
+                      onPreesed: () {
+                        Get.to(MainScreen());
+                      },
                     ),
                   ),
                 ],

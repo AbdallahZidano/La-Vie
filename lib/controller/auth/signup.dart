@@ -1,13 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:test/ui/screens/question.dart';
 
 import '../../data/models/signup.dart';
 import '../../data/models/user_data.dart';
 import '../../helper/dio.dart';
 import '../../helper/utils/shared_keys.dart';
 import '../../helper/utils/sharedpreferences.dart';
-import '../../ui/screens/main_screen.dart';
 import '../../ui/widgets/dialog_indicator.dart';
 
 class SignUpController extends GetxController {
@@ -37,7 +37,7 @@ class SignUpController extends GetxController {
       );
       saveUserInfo();
       Get.back();
-      Get.to(MainScreen());
+      Get.to(QuestionScreen());
     }).catchError((e) {
       if (e is DioError) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -69,6 +69,11 @@ class SignUpController extends GetxController {
       await PreferenceUtils.setString(
         SharedKeys.userPoints.toString(),
         data.data.userPoints,
+      );
+      final dateNow = DateTime.now();
+      await PreferenceUtils.setString(
+        SharedKeys.lastLoginDate.toString(),
+        dateNow.toString(),
       );
       print("Done -----------------------------------");
     });

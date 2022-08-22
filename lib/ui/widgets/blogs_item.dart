@@ -1,12 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:test/controller/blogs.dart';
 
 import '../../helper/constants/colors.dart';
 import '../../helper/constants/image_paths.dart';
 import '../../ui/screens/single_blog.dart';
 
 class BlogsItem extends StatefulWidget {
+  String id;
   String title;
   String description;
   String imageUrl;
@@ -15,6 +17,7 @@ class BlogsItem extends StatefulWidget {
   int temperature;
 
   BlogsItem({
+    required this.id,
     required this.title,
     required this.description,
     required this.imageUrl,
@@ -31,6 +34,7 @@ class _BlogsItemState extends State<BlogsItem> {
   final ImagePaths _imagePaths = ImagePaths();
 
   final ColorHepler _colorHepler = ColorHepler();
+  final BlogsController _controller = Get.put(BlogsController());
 
   int cuont = 1;
 
@@ -38,6 +42,7 @@ class _BlogsItemState extends State<BlogsItem> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        _controller.getOneBlog(widget.id);
         Get.to(SingleBlogScreen());
       },
       child: Container(

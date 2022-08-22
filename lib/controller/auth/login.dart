@@ -4,6 +4,7 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:test/data/models/facebook_auth_model.dart';
+import 'package:test/ui/screens/question.dart';
 
 import '../../data/models/facebook_signin_model.dart';
 import '../../data/models/login.dart';
@@ -47,7 +48,13 @@ class LoginController extends GetxController {
         );
         saveUserInfo();
         Get.back();
-        Get.to(MainScreen());
+        bool weeklyTest = await showWeeklyTest();
+
+        if (weeklyTest) {
+          Get.to(QuestionScreen());
+        } else {
+          Get.to(MainScreen());
+        }
       }).catchError((e) {
         Get.back();
         ScaffoldMessenger.of(context).showSnackBar(
@@ -102,7 +109,13 @@ class LoginController extends GetxController {
         );
         saveUserInfo();
         Get.back();
-        Get.to(MainScreen());
+        bool weeklyTest = await showWeeklyTest();
+
+        if (weeklyTest) {
+          Get.to(QuestionScreen());
+        } else {
+          Get.to(MainScreen());
+        }
       }).catchError((e) {
         print(e);
         ScaffoldMessenger.of(context).showSnackBar(
@@ -154,7 +167,13 @@ class LoginController extends GetxController {
       );
       saveUserInfo();
       Get.back();
-      Get.to(MainScreen());
+      bool weeklyTest = await showWeeklyTest();
+
+      if (weeklyTest) {
+        Get.to(QuestionScreen());
+      } else {
+        Get.to(MainScreen());
+      }
     }).catchError((e) {
       if (e is DioError) {
         Get.back();
@@ -209,7 +228,28 @@ class LoginController extends GetxController {
         SharedKeys.userPoints.toString(),
         data.data.userPoints,
       );
-      print("Done -----------------------------------");
+      await PreferenceUtils.setString(
+        SharedKeys.userPoints.toString(),
+        data.data.userPoints,
+      );
     });
+  }
+
+  Future<bool> showWeeklyTest() async {
+    final lastLoginDate = DateTime.parse(PreferenceUtils.getString(
+      SharedKeys.lastLoginDate.toString(),
+    ));
+    final dateNow = DateTime.now();
+
+    final difference = dateNow.difference(lastLoginDate).inDays;
+    if (difference >= 7) {
+      final dateNow = DateTime.now();
+      await PreferenceUtils.setString(
+        SharedKeys.lastLoginDate.toString(),
+        dateNow.toString(),
+      );
+      return true;
+    }
+    return false;
   }
 }

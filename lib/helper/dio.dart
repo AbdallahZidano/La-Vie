@@ -8,8 +8,8 @@ class DioHelper {
       BaseOptions(
         baseUrl: 'https://lavie.orangedigitalcenteregypt.com',
         receiveDataWhenStatusError: true,
-        sendTimeout: 1000,
-        receiveTimeout: 1000,
+        sendTimeout: 5000,
+        receiveTimeout: 5000,
       ),
     );
   }

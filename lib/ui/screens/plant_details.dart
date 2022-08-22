@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:test/controller/blogs.dart';
 import 'package:test/helper/constants/colors.dart';
 import 'package:test/helper/constants/image_paths.dart';
 import 'package:test/ui/screens/blogs.dart';
@@ -10,6 +12,8 @@ import '../widgets/details_item.dart';
 class PlantDetailsScreen extends StatelessWidget {
   final ImagePaths _imagePaths = ImagePaths();
   final ColorHepler _colorHepler = ColorHepler();
+  final BlogsController _controller = Get.find();
+
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -22,7 +26,12 @@ class PlantDetailsScreen extends StatelessWidget {
               decoration: BoxDecoration(
                 image: DecorationImage(
                   alignment: Alignment.topCenter,
-                  image: AssetImage(_imagePaths.plant_5),
+                  image: CachedNetworkImageProvider(
+                    _controller.oneBlog!.first.imageUrl.isEmpty
+                        ? 'https://lavie.orangedigitalcenteregypt.com/uploads/09be504b-99e3-481d-9653-9b6c791741dc.png'
+                        : 'https://lavie.orangedigitalcenteregypt.com' +
+                            _controller.oneBlog!.first.imageUrl,
+                  ),
                 ),
               ),
             ),
@@ -46,31 +55,20 @@ class PlantDetailsScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  const Text(
-                    'SNAKE PLANT (SANSEVIERIA)',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  Text(
+                    _controller.oneBlog!.first.name,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 18),
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    "Native to southern Africa, snake plants are well adapted to conditions similar to those in southern regions of the United States. Because of this, they may be grown outdoors for part of all of the year in USDA zones 8 and warmer",
+                    _controller.oneBlog!.first.description,
                     style: TextStyle(color: _colorHepler.text),
                     softWrap: true,
                     maxLines: 5,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(height: 10),
-                  const Text(
-                    "Common Snake Plant Diseases",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                  ),
-                  Text(
-                    "A widespread problem with snake plants is root rot. This results from over-watering the soil of the plant and is most common in the colder months of the year. When room rot occurs, the plant roots can die due to a lack of oxygen and an overgrowth of fungus within the soil. If the snake plant's soil is soggy,rowth of fungus within the soil. If the snake plant's soil is soggy,rowth of fungus within the soil. If the snake plant's soil is soggy,rowth of fungus within the soil. If the snake plant's soil is soggy,rowth of fungus within the soil. If the snake plant's soil is soggy, certain microorganisms such as Rhizoctonia and Pythium can begin to populate and multiply, disease throughout th",
-                    style: TextStyle(color: _colorHepler.text),
-                    softWrap: true,
-                    maxLines: 10,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 20),
                   CustomButton(
                     text: "Go To Blog",
                     isBorder: false,
@@ -89,19 +87,19 @@ class PlantDetailsScreen extends StatelessWidget {
                 children: [
                   DetailsItem(
                     image: Image.asset(_imagePaths.sun),
-                    title: '78%',
+                    title: '${_controller.oneBlog!.first.sunLight}%',
                     subTitle: 'Sun Light',
                   ),
                   const SizedBox(height: 20),
                   DetailsItem(
                     image: Image.asset(_imagePaths.water),
-                    title: '10%',
+                    title: '${_controller.oneBlog!.first.waterCapacity}%',
                     subTitle: 'Water capacity',
                   ),
                   const SizedBox(height: 20),
                   DetailsItem(
                     image: Image.asset(_imagePaths.temp),
-                    title: '29 ° c',
+                    title: '${_controller.oneBlog!.first.temperature} ° c',
                     subTitle: 'Temperature',
                   ),
                 ],

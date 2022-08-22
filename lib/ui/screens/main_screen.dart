@@ -4,7 +4,7 @@ import 'package:test/helper/constants/colors.dart';
 import 'package:test/helper/constants/image_paths.dart';
 import 'package:test/ui/screens/notification.dart';
 
-import 'discussion_forums.dart';
+import 'forums.dart';
 import 'home.dart';
 import 'profile.dart';
 import 'scan_qr.dart';
@@ -22,10 +22,9 @@ class _MainScreenState extends State<MainScreen> {
   final GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
 
   List<Widget> screens = [
-    DiscussionScreen(),
+    ForumsScreen(),
     ScanQrScreen(),
     HomeScreen(),
-    // BlogsScreen(),
     NotificationScreen(),
     ProfileScreen(),
   ];

@@ -1,8 +1,12 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:test/controller/blogs.dart';
 import 'package:test/helper/constants/image_paths.dart';
 
 class SingleBlogScreen extends StatelessWidget {
   final ImagePaths _imagePaths = ImagePaths();
+  final BlogsController _controller = Get.find();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -13,8 +17,11 @@ class SingleBlogScreen extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 height: 250,
-                child: Image.asset(
-                  _imagePaths.plants,
+                child: CachedNetworkImage(
+                  imageUrl: _controller.oneBlog!.first.imageUrl.isEmpty
+                      ? 'https://lavie.orangedigitalcenteregypt.com/uploads/09be504b-99e3-481d-9653-9b6c791741dc.png'
+                      : 'https://lavie.orangedigitalcenteregypt.com' +
+                          _controller.oneBlog!.first.imageUrl,
                   fit: BoxFit.cover,
                   height: 250,
                 ),
@@ -25,21 +32,21 @@ class SingleBlogScreen extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children: [
                     Text(
-                      "5 Simple Tips to treat plants",
-                      style: TextStyle(
+                      _controller.oneBlog!.first.name,
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
                       ),
                     ),
-                    SizedBox(height: 15),
+                    const SizedBox(height: 15),
                     SizedBox(
                       width: double.infinity,
                       child: Text(
-                        "leaf, in botany, any usually flattened green outgrowth from the stem of leaf, in                   botany, any usually flattened green outgrowth from the stem of  leaf, in botany, any                 usually flattened green outgrowth from the stem of leaf, in botany, any usually flattened green outgrowth from the stem of                                  leaf, in botany, any usually flattened green outgrowth from the stem of  leaf, in botany, any usually flattened green outgrowth from the stem of  ",
+                        _controller.oneBlog!.first.description,
                         softWrap: true,
-                        style: TextStyle(height: 2.3),
+                        style: const TextStyle(height: 2.3),
                       ),
                     ),
                   ],

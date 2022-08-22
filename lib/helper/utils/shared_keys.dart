@@ -10,4 +10,5 @@ enum SharedKeys {
   userName,
   userImageLink,
   userPoints,
+  lastLoginDate,
 }

@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:test/controller/blogs.dart';
 
 import '../../helper/constants/colors.dart';
 import '../../ui/screens/plant_details.dart';
@@ -15,6 +16,8 @@ class ScanQrScreen extends StatefulWidget {
 
 class _ScanQrScreenState extends State<ScanQrScreen> {
   final ColorHepler _colorHepler = ColorHepler();
+  final BlogsController _controller = Get.put(BlogsController());
+
   Barcode? result;
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
@@ -94,7 +97,9 @@ class _ScanQrScreenState extends State<ScanQrScreen> {
                           child: Text(result!.code.toString()),
                         ),
                         InkWell(
-                          onTap: () {
+                          onTap: () async {
+                            await _controller.getAllBlogs();
+                            _controller.getOneBlog(result!.code.toString());
                             Get.to(PlantDetailsScreen());
                             controller!.pauseCamera();
                           },
