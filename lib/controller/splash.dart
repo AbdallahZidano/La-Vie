@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 import 'package:test/helper/utils/shared_keys.dart';
-import 'package:test/ui/screens/main_screen.dart';
 import 'package:test/ui/screens/question.dart';
 
 import '../helper/utils/sharedpreferences.dart';
@@ -15,7 +14,8 @@ class SplashController extends GetxController {
       if (weeklyTest) {
         Get.offAll(QuestionScreen());
       } else {
-        Get.offAll(MainScreen());
+        Get.offAll(QuestionScreen());
+        // Get.offAll(MainScreen());
       }
     } else {
       Get.offAll(AuthScreen());

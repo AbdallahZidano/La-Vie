@@ -19,6 +19,11 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
   final SearchConteroller _conteroller = Get.put(SearchConteroller());
 
   bool notFound = false;
+  @override
+  void initState() {
+    super.initState();
+    _conteroller.getSearchItems();
+  }
 
   @override
   void dispose() {
@@ -55,9 +60,7 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
                     ),
                     onSubmitted: (value) {
                       _conteroller.saveSearchItem(value.toString());
-                      _conteroller
-                          .getSearchItems()
-                          .then((value) => print(value));
+                      _conteroller.getSearchItems();
                       // print(data);
                     },
                   ),
@@ -73,16 +76,20 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
                             style: TextStyle(color: _colorHepler.text),
                           ),
                           const SizedBox(height: 15),
-                          SizedBox(
-                            width: double.infinity,
-                            height: 500,
-                            child: ListView.builder(
-                              itemCount: 6,
-                              itemBuilder: (context, index) {
-                                return RecentItem();
-                              },
-                            ),
-                          )
+                          GetBuilder<SearchConteroller>(builder: (context) {
+                            return SizedBox(
+                              width: double.infinity,
+                              height: 500,
+                              child: ListView.builder(
+                                itemCount: _conteroller.items.length,
+                                itemBuilder: (context, index) {
+                                  return RecentItem(
+                                    text: _conteroller.items[index],
+                                  );
+                                },
+                              ),
+                            );
+                          })
                         ],
                       )
                     : Column(

@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:test/controller/search.dart';
 import 'package:test/helper/constants/colors.dart';
 
 class RecentItem extends StatelessWidget {
+  String text;
   final ColorHepler _colorHepler = ColorHepler();
+  final SearchConteroller _conteroller = Get.find();
+
+  RecentItem({required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +25,7 @@ class RecentItem extends StatelessWidget {
           ),
           const SizedBox(width: 15),
           Text(
-            "Zidano",
+            text,
             style: TextStyle(
               color: _colorHepler.lightGrey,
               fontSize: 15,
@@ -27,7 +33,9 @@ class RecentItem extends StatelessWidget {
           ),
           const Spacer(),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              _conteroller.remoneItem(text);
+            },
             icon: Icon(
               Icons.close,
               color: _colorHepler.lightGrey,

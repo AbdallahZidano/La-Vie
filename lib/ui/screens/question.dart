@@ -6,8 +6,17 @@ import 'package:test/ui/widgets/button.dart';
 
 import '../widgets/question_card.dart';
 
-class QuestionScreen extends StatelessWidget {
+class QuestionScreen extends StatefulWidget {
+  @override
+  State<QuestionScreen> createState() => _QuestionScreenState();
+}
+
+class _QuestionScreenState extends State<QuestionScreen> {
   final ColorHepler _colorHepler = ColorHepler();
+
+  int pageIndex = 1;
+  List<bool> buttonsStates = [false, false, false];
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -37,7 +46,7 @@ class QuestionScreen extends StatelessWidget {
                   ),
                   const SizedBox(width: 10),
                   Text(
-                    "1",
+                    pageIndex.toString(),
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 35,
@@ -64,47 +73,86 @@ class QuestionScreen extends StatelessWidget {
               ),
               const SizedBox(height: 25),
               const SizedBox(height: 25),
-              QuestionCard(
-                text:
-                    "The user experience is how the developer feels about a user.",
-                ischecked: false,
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    buttonsStates[0] = true;
+                    buttonsStates[1] = false;
+                    buttonsStates[2] = false;
+                  });
+                },
+                child: QuestionCard(
+                  text:
+                      "The user experience is how the developer feels about a user.",
+                  ischecked: buttonsStates[0],
+                ),
               ),
               const SizedBox(height: 25),
-              QuestionCard(
-                text:
-                    "The user experience is how the user feels about interacting with or experiencing a product.",
-                ischecked: true,
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    buttonsStates[0] = false;
+                    buttonsStates[1] = true;
+                    buttonsStates[2] = false;
+                  });
+                },
+                child: QuestionCard(
+                  text:
+                      "The user experience is how the user feels about interacting with or experiencing a product.",
+                  ischecked: buttonsStates[1],
+                ),
               ),
               const SizedBox(height: 25),
-              QuestionCard(
-                text:
-                    "The user experience is the attitude the UX designer has about a product.",
-                ischecked: false,
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    buttonsStates[0] = false;
+                    buttonsStates[1] = false;
+                    buttonsStates[2] = true;
+                  });
+                },
+                child: QuestionCard(
+                  text:
+                      "The user experience is the attitude the UX designer has about a product.",
+                  ischecked: buttonsStates[2],
+                ),
               ),
               const SizedBox(height: 70),
               Row(
                 children: [
-                  Expanded(
-                    flex: 1,
-                    child: CustomButton(
-                      text: "Back",
-                      isBorder: true,
-                      onPreesed: () {},
-                    ),
-                  ),
+                  pageIndex == 1
+                      ? Expanded(flex: 1, child: Container())
+                      : Expanded(
+                          flex: 1,
+                          child: CustomButton(
+                            text: "Back",
+                            isBorder: true,
+                            onPreesed: () {
+                              setState(() {
+                                pageIndex--;
+                              });
+                            },
+                          ),
+                        ),
                   const SizedBox(width: 15),
                   Expanded(
                     flex: 1,
                     child: CustomButton(
-                      text: "Next",
+                      text: pageIndex >= 3 ? "Finish" : "Next",
                       isBorder: false,
                       onPreesed: () {
-                        Get.to(MainScreen());
+                        if (pageIndex >= 3) {
+                          Get.to(MainScreen());
+                        } else {
+                          setState(() {
+                            pageIndex++;
+                          });
+                        }
                       },
                     ),
                   ),
                 ],
-              )
+              ),
             ],
           ),
         ),
