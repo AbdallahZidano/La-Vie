@@ -1,10 +1,27 @@
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:test/controller/home.dart';
+import 'package:test/data/models/products.dart';
 import '../helper/utils/sharedpreferences.dart';
 
 class SearchConteroller extends GetxController {
-  List<String> items = [];
+  List<String> recentItems = [];
+  final HomeController _homeController = Get.find();
+  List<Data> toShowList = [];
+
+  search(String text) {
+    print(text);
+    toShowList.clear();
+    for (var i = 0; i < _homeController.products.length; i++) {
+      if (_homeController.products[i].name.startsWith(text) ||
+          _homeController.products[i].name.toLowerCase().startsWith(text) ||
+          _homeController.products[i].name.toUpperCase().startsWith(text)) {
+        toShowList.add(_homeController.products[i]);
+      }
+    }
+    print(toShowList);
+    update();
+  }
 
   saveSearchItem(String value) async {
     final List<String>? items = PreferenceUtils.getStringList('searchItem');
@@ -20,17 +37,22 @@ class SearchConteroller extends GetxController {
     }
   }
 
-  Future getSearchItems() async {
+  Future getRecentSearchItems() async {
     final PreferenceUtils = await SharedPreferences.getInstance();
-    items = PreferenceUtils.getStringList('searchItem') ?? [];
+    recentItems = PreferenceUtils.getStringList('searchItem') ?? [];
     update();
   }
 
-  remoneItem(String value) async {
-    getSearchItems();
-    items.removeWhere((item) => item == value);
-    await PreferenceUtils.setStringList('searchItem', items);
-    getSearchItems();
+  removeRecentItem(String value) async {
+    getRecentSearchItems();
+    recentItems.removeWhere((item) => item == value);
+    await PreferenceUtils.setStringList('searchItem', recentItems);
+    getRecentSearchItems();
+    update();
+  }
+
+  reomveFromListToShow(String id) {
+    toShowList.removeWhere((element) => element.productId == id);
     update();
   }
 }

@@ -34,7 +34,7 @@ class RecentItem extends StatelessWidget {
           const Spacer(),
           IconButton(
             onPressed: () {
-              _conteroller.remoneItem(text);
+              _conteroller.removeRecentItem(text);
             },
             icon: Icon(
               Icons.close,

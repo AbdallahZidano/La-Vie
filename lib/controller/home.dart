@@ -71,6 +71,20 @@ class HomeController extends GetxController {
     }
   }
 
+  addToCartWithId(BuildContext context, String id) {
+    int productIndex = products.indexWhere((e) => e.productId == id);
+    cartProducts.add(products[productIndex]);
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: _colorHepler.brand,
+        content: const Text(
+          "The product is added to cart successfully",
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
+    );
+  }
+
   void removeFromCart(int index) async {
     int productIndexInCart = cartProducts
         .indexWhere((e) => e.productId == products[index].productId);
