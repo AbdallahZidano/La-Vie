@@ -19,6 +19,7 @@ dependencies:
   shared_preferences: ^2.0.15
   qr_code_scanner: ^1.0.0
   flutter_facebook_auth: ^4.4.1
+  cached_network_image: ^3.2.1
   
 
 dev_dependencies:

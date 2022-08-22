@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -6,6 +7,22 @@ import '../../helper/constants/image_paths.dart';
 import '../../ui/screens/single_blog.dart';
 
 class BlogsItem extends StatefulWidget {
+  String title;
+  String description;
+  String imageUrl;
+  int waterCapacity;
+  int sunLight;
+  int temperature;
+
+  BlogsItem({
+    required this.title,
+    required this.description,
+    required this.imageUrl,
+    required this.waterCapacity,
+    required this.sunLight,
+    required this.temperature,
+  });
+
   @override
   State<BlogsItem> createState() => _BlogsItemState();
 }
@@ -48,8 +65,13 @@ class _BlogsItemState extends State<BlogsItem> {
               decoration: BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: AssetImage(
-                    _imagePaths.plants,
+                  onError: (exception, stackTrace) =>
+                      AssetImage(_imagePaths.plants),
+                  image: CachedNetworkImageProvider(
+                    widget.imageUrl == ''
+                        ? 'https://lavie.orangedigitalcenteregypt.com/uploads/51416d55-189c-46bc-9e34-296195d18a94.png'
+                        : 'https://lavie.orangedigitalcenteregypt.com' +
+                            widget.imageUrl,
                   ),
                 ),
                 borderRadius: BorderRadius.circular(10),
@@ -68,21 +90,25 @@ class _BlogsItemState extends State<BlogsItem> {
                   ),
                 ),
                 const SizedBox(height: 3),
-                const Text(
-                  "Cactus plant",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15,
+                SizedBox(
+                  width: 160,
+                  child: Text(
+                    widget.title,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 5),
-                const SizedBox(
+                SizedBox(
                   width: 150,
                   child: Text(
-                    "leaf, in botany, any usually flattened green outgrowth from the stem of",
+                    widget.description,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 3,
-                    style: TextStyle(fontSize: 12),
+                    style: const TextStyle(fontSize: 12),
                   ),
                 )
               ],

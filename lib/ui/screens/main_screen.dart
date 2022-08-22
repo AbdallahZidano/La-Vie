@@ -25,6 +25,7 @@ class _MainScreenState extends State<MainScreen> {
     DiscussionScreen(),
     ScanQrScreen(),
     HomeScreen(),
+    // BlogsScreen(),
     NotificationScreen(),
     ProfileScreen(),
   ];

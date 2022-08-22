@@ -22,7 +22,6 @@ class _HomeScreenState extends State<HomeScreen> {
   bool allSelected = true;
   bool mySelected = false;
 
-  List<String> categoryList = ['All', 'Plants', 'Seeds', 'Tools'];
   List<bool> enabledList = [true, false, false, false, false];
 
   int length = 7;
@@ -39,14 +38,17 @@ class _HomeScreenState extends State<HomeScreen> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(
             height: 20,
           ),
-          Image.asset(
-            _imagePaths.logo,
-            fit: BoxFit.cover,
-            width: 100,
+          Center(
+            child: Image.asset(
+              _imagePaths.logo,
+              fit: BoxFit.cover,
+              width: 100,
+            ),
           ),
           const SizedBox(height: 25),
           Row(
@@ -103,8 +105,9 @@ class _HomeScreenState extends State<HomeScreen> {
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                // حول لي لسيت فيو وابعت انديكس واعمل سي ستات هناك في الويدجت
                 CategoryCrad(isSelected: true, text: 'All'),
                 const SizedBox(width: 10),
                 CategoryCrad(isSelected: false, text: 'Plants'),
@@ -112,8 +115,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 CategoryCrad(isSelected: false, text: 'Seeds'),
                 const SizedBox(width: 10),
                 CategoryCrad(isSelected: false, text: 'Tools'),
-                const SizedBox(width: 10),
-                CategoryCrad(isSelected: false, text: 'Plants'),
               ],
             ),
           ),
