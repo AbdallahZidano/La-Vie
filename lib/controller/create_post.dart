@@ -12,7 +12,6 @@ import '../data/models/create_post.dart';
 import '../helper/dio.dart';
 import '../helper/utils/shared_keys.dart';
 import '../helper/utils/sharedpreferences.dart';
-import '../ui/screens/forums.dart';
 import '../ui/widgets/dialog_indicator.dart';
 
 class CreatePostController extends GetxController {
@@ -71,7 +70,7 @@ class CreatePostController extends GetxController {
             ),
           ),
         );
-        Get.off(ForumsScreen());
+        Get.back();
       }).catchError((e) {
         if (e is DioError) {
           print(e.response);
