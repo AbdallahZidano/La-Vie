@@ -25,7 +25,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     super.initState();
 
-    _profileController.getUserInfo();
+    Future.delayed(
+      const Duration(seconds: 1),
+      () {
+        _profileController.getUserInfo();
+      },
+    );
   }
 
   @override

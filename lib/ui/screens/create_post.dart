@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:test/controller/create_post.dart';
 
+import '../../helper/constants/colors.dart';
 import '../widgets/button.dart';
 import '../widgets/login_text_field.dart';
 
@@ -14,6 +15,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final CreatePostController _controller = Get.put(CreatePostController());
+  final ColorHepler _colorHepler = ColorHepler();
   @override
   void dispose() {
     _titleController.dispose();
@@ -141,8 +143,8 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                   onPreesed: () {
                     if (_titleController.text.isNotEmpty &&
                         _descriptionController.text.isNotEmpty) {
-                      _controller.createPost(
-                          _titleController.text, _descriptionController.text);
+                      _controller.createPost(context, _titleController.text,
+                          _descriptionController.text);
                     }
                   },
                 ),

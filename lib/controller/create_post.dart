@@ -6,15 +6,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:test/helper/constants/colors.dart';
 
+import '../data/models/create_post.dart';
 import '../helper/dio.dart';
 import '../helper/utils/shared_keys.dart';
 import '../helper/utils/sharedpreferences.dart';
+import '../ui/screens/forums.dart';
 import '../ui/widgets/dialog_indicator.dart';
 
 class CreatePostController extends GetxController {
   File selectedImage = File('');
   bool imageSelected = false;
+  bool postCreated = false;
+  final ColorHepler _colorHepler = ColorHepler();
 
   Future pickImage(BuildContext context) async {
     try {
@@ -32,7 +37,8 @@ class CreatePostController extends GetxController {
     }
   }
 
-  createPost(String title, String description) {
+  Future createPost(
+      BuildContext context, String title, String description) async {
     if (imageSelected) {
       showCustomDialog();
       print('-----------------------------------------');
@@ -46,19 +52,38 @@ class CreatePostController extends GetxController {
         data: {
           "title": title,
           "description": description,
-          "imageBase64": imageBase64
+          "imageBase64": "data:image/png;base64,$imageBase64",
         },
         headers: {"Authorization": "Bearer $accessToken"},
       ).then((value) async {
-        print(value);
-        // ForumsModel data = ForumsModel.fromJson(value);
-        // forums = data.data;
-        // update();
+        CreatePost data = CreatePost.fromJson(value);
+        print(data.message);
+
+        update();
         Get.back();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            dismissDirection: DismissDirection.up,
+            backgroundColor: _colorHepler.brand,
+            content: const Text(
+              "The post is created successfully",
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        );
+        Get.off(ForumsScreen());
       }).catchError((e) {
         if (e is DioError) {
           print(e.response);
           Get.back();
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              dismissDirection: DismissDirection.up,
+              content: Text(
+                "Error Please try agian",
+              ),
+            ),
+          );
         }
         // print(e);
       });

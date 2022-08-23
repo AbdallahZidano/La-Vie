@@ -98,6 +98,7 @@ class PostCard extends StatelessWidget {
                     ),
                     Text(
                       description,
+                      maxLines: 3,
                       style: TextStyle(
                         fontSize: 11,
                         color: _colorHepler.text,
@@ -112,7 +113,8 @@ class PostCard extends StatelessWidget {
                 child: CachedNetworkImage(
                   imageUrl:
                       'https://lavie.orangedigitalcenteregypt.com' + imageUrl,
-                  fit: BoxFit.cover,
+                  fit: BoxFit.fill,
+                  height: 130,
                 ),
               ),
             ],

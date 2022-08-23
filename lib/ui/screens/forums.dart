@@ -16,13 +16,14 @@ class _ForumsScreenState extends State<ForumsScreen> {
   final ForumsController _controller = Get.put(ForumsController());
 
   bool allSelected = true;
-
   bool mySelected = false;
+
   @override
   void initState() {
     super.initState();
     print("--------------------------------------");
     _controller.getAllForums();
+    _controller.getMyForums();
   }
 
   @override
@@ -40,6 +41,7 @@ class _ForumsScreenState extends State<ForumsScreen> {
         ),
       ),
       body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: GetBuilder<ForumsController>(builder: (context) {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
@@ -162,32 +164,58 @@ class _ForumsScreenState extends State<ForumsScreen> {
                     ),
                   ],
                 ),
-                _controller.forums!.isEmpty
-                    ? Column(
-                        children: const [
-                          SizedBox(height: 200),
-                          Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                        ],
-                      )
+                mySelected
+                    ? _controller.myForums!.isEmpty
+                        ? Column(
+                            children: const [
+                              SizedBox(height: 200),
+                              Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                            ],
+                          )
+                        : ListView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: _controller.myForums!.length,
+                            itemBuilder: (context, index) {
+                              return PostCard(
+                                title: _controller.myForums![index].title,
+                                description:
+                                    _controller.myForums![index].description,
+                                imageUrl: _controller.myForums![index].imageUrl,
+                                likes: _controller
+                                    .myForums![index].forumLikes.length,
+                                comments: _controller
+                                    .myForums![index].forumComments.length,
+                                userImage: _controller.userImageLink,
+                                userName: _controller.userName,
+                              );
+                            },
+                          )
                     : ListView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        itemCount: _controller.forums!.length,
+                        itemCount: _controller.allForums!.length,
                         itemBuilder: (context, index) {
                           return PostCard(
-                            title: _controller.forums![index].title,
-                            description: _controller.forums![index].description,
-                            imageUrl: _controller.forums![index].imageUrl,
-                            likes: _controller.forums![index].forumLikes.length,
-                            comments:
-                                _controller.forums![index].forumComments.length,
-                            userImage: _controller.userImageLink,
-                            userName: _controller.userName,
+                            title: _controller.allForums![index].title,
+                            description:
+                                _controller.allForums![index].description,
+                            imageUrl: _controller.allForums![index].imageUrl,
+                            likes:
+                                _controller.allForums![index].forumLikes.length,
+                            comments: _controller
+                                .allForums![index].forumComments.length,
+                            userImage:
+                                _controller.allForums![index].user.imageUrl,
+                            userName:
+                                _controller.allForums![index].user.firstName +
+                                    ' ' +
+                                    _controller.allForums![index].user.lastName,
                           );
                         },
-                      )
+                      ),
               ],
             ),
           );

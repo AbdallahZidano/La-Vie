@@ -94,7 +94,8 @@ class _ScanQrScreenState extends State<ScanQrScreen> {
                       children: [
                         SizedBox(
                           width: width - 130,
-                          child: Text(result!.code.toString()),
+                          child: const Text("Scan Successfully Go To Details",
+                              style: TextStyle(letterSpacing: 1.2)),
                         ),
                         InkWell(
                           onTap: () async {

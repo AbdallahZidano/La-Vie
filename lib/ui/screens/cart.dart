@@ -67,6 +67,7 @@ class _CartScreenState extends State<CartScreen> {
                             width: double.infinity,
                             height: height / 1.45,
                             child: ListView.builder(
+                              physics: const BouncingScrollPhysics(),
                               shrinkWrap: true,
                               itemCount: _controller.cartProducts.length,
                               itemBuilder: (contex, index) {
@@ -75,13 +76,13 @@ class _CartScreenState extends State<CartScreen> {
                                       vertical: 10, horizontal: 5),
                                   child: CartItem(
                                     index: index,
-                                    name: _controller.cartProducts[index].name,
-                                    price: _controller.cartProducts[index].price
+                                    name: _controller.products[index].name,
+                                    price: _controller.products[index].price
                                         .toString(),
-                                    imageUrl: _controller
-                                        .cartProducts[index].imageUrl,
-                                    quantity: _controller
-                                        .cartProducts[index].quantity,
+                                    imageUrl:
+                                        _controller.products[index].imageUrl,
+                                    quantity:
+                                        _controller.products[index].quantity,
                                   ),
                                 );
                               },

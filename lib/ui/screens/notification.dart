@@ -58,6 +58,7 @@ class NotificationScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: ListView.builder(
+            physics: const BouncingScrollPhysics(),
             itemCount: notifications.length,
             itemBuilder: (context, index) {
               return Column(

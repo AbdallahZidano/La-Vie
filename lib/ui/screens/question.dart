@@ -142,7 +142,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                       isBorder: false,
                       onPreesed: () {
                         if (pageIndex >= 3) {
-                          Get.to(MainScreen());
+                          Get.offAll(MainScreen());
                         } else {
                           setState(() {
                             pageIndex++;

@@ -38,6 +38,7 @@ class _BlogsScreenState extends State<BlogsScreen> {
                   child: CircularProgressIndicator(),
                 )
               : ListView.builder(
+                  physics: const BouncingScrollPhysics(),
                   itemCount: _controller.blogs!.plants.length,
                   itemBuilder: (context, index) {
                     return BlogsItem(

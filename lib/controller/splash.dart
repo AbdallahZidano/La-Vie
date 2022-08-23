@@ -4,6 +4,7 @@ import 'package:test/ui/screens/question.dart';
 
 import '../helper/utils/sharedpreferences.dart';
 import '../ui/screens/auth.dart';
+import '../ui/screens/main_screen.dart';
 
 class SplashController extends GetxController {
   void nextScreen() async {
@@ -14,8 +15,7 @@ class SplashController extends GetxController {
       if (weeklyTest) {
         Get.offAll(QuestionScreen());
       } else {
-        Get.offAll(QuestionScreen());
-        // Get.offAll(MainScreen());
+        Get.offAll(MainScreen());
       }
     } else {
       Get.offAll(AuthScreen());
@@ -26,7 +26,7 @@ class SplashController extends GetxController {
     String savedDate = PreferenceUtils.getString(
       SharedKeys.lastLoginDate.toString(),
     );
-    if (savedDate == null) {
+    if (savedDate.isEmpty) {
       final dateNow = DateTime.now();
       await PreferenceUtils.setString(
         SharedKeys.lastLoginDate.toString(),

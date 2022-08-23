@@ -56,7 +56,7 @@ class LoginController extends GetxController {
           Get.to(MainScreen());
         }
       }).catchError((e) {
-        Get.back();
+        print(e);
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text("Sign in Failed"),
@@ -236,20 +236,30 @@ class LoginController extends GetxController {
   }
 
   Future<bool> showWeeklyTest() async {
-    final lastLoginDate = DateTime.parse(PreferenceUtils.getString(
+    String savedDate = PreferenceUtils.getString(
       SharedKeys.lastLoginDate.toString(),
-    ));
-    final dateNow = DateTime.now();
-
-    final difference = dateNow.difference(lastLoginDate).inDays;
-    if (difference >= 7) {
+    );
+    if (savedDate.isEmpty) {
       final dateNow = DateTime.now();
       await PreferenceUtils.setString(
         SharedKeys.lastLoginDate.toString(),
         dateNow.toString(),
       );
       return true;
+    } else {
+      final lastQuestionDate = DateTime.parse(savedDate);
+      final dateNow = DateTime.now();
+
+      final difference = dateNow.difference(lastQuestionDate).inDays;
+      if (difference >= 7) {
+        final dateNow = DateTime.now();
+        await PreferenceUtils.setString(
+          SharedKeys.lastLoginDate.toString(),
+          dateNow.toString(),
+        );
+        return true;
+      }
+      return false;
     }
-    return false;
   }
 }
